@@ -1,0 +1,4 @@
+#!/bin/bash
+
+exec /opt/grafana/bin/grafana-server -config /opt/grafana/conf/sample.ini -homepath /opt/grafana/ 2>&1 >> /var/log/grafana.log
+

@@ -69,6 +69,11 @@ RUN pip install -r requirements.txt \
 # install statsd
 RUN git clone -b ${statsd_version} ${statsd_repo} /opt/statsd
 
+# install grafana
+RUN mkdir /opt/grafana
+RUN curl https://s3-us-west-2.amazonaws.com/grafana-releases/master/grafana-4.7.0-10542pre1.linux-x64.tar.gz -o /tmp/grafana-4.7.0.tar.gz
+RUN tar -zxvf /tmp/grafana-4.7.0.tar.gz -C /opt/grafana --strip-components=1
+
 # config graphite
 ADD conf/opt/graphite/conf/*.conf /opt/graphite/conf/
 ADD conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
@@ -100,6 +105,7 @@ ADD conf/etc/service/carbon-aggregator/run /etc/service/carbon-aggregator/run
 ADD conf/etc/service/graphite/run /etc/service/graphite/run
 ADD conf/etc/service/statsd/run /etc/service/statsd/run
 ADD conf/etc/service/nginx/run /etc/service/nginx/run
+ADD conf/etc/service/grafana/run /etc/service/grafana/run
 
 # default conf setup
 ADD conf /etc/graphite-statsd/conf
@@ -110,7 +116,7 @@ RUN apt-get clean\
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # defaults
-EXPOSE 80 2003-2004 2023-2024 8125 8125/udp 8126
+EXPOSE 80 2003-2004 2023-2024 8125 8125/udp 8126 3000
 VOLUME ["/opt/graphite/conf", "/opt/graphite/storage", "/etc/nginx", "/opt/statsd", "/etc/logrotate.d", "/var/log"]
 WORKDIR /
 ENV HOME /root
