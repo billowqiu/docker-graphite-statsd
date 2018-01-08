@@ -71,8 +71,8 @@ RUN git clone -b ${statsd_version} ${statsd_repo} /opt/statsd
 
 # install grafana
 RUN mkdir /opt/grafana
-RUN curl https://s3-us-west-2.amazonaws.com/grafana-releases/master/grafana-4.7.0-10542pre1.linux-x64.tar.gz -o /tmp/grafana-4.7.0.tar.gz
-RUN tar -zxvf /tmp/grafana-4.7.0.tar.gz -C /opt/grafana --strip-components=1
+RUN curl https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.6.3.linux-x64.tar.gz -o /tmp/grafana.tar.gz
+RUN tar -zxvf /tmp/grafana.tar.gz -C /opt/grafana --strip-components=1
 
 # config graphite
 ADD conf/opt/graphite/conf/*.conf /opt/graphite/conf/
